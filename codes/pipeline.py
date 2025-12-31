@@ -354,12 +354,18 @@ def write_outputs(file_path: str, outputs: list):
             file.write(output + '\n')
 
 def main():
-    model_path = r"C:\Users\zeffn\OneDrive\Desktop\transliterationPipeline\model"
-    csv_path = r"C:\Users\zeffn\OneDrive\Desktop\transliterationPipeline\db\tr_v8.csv"
+    import os
+    SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+    PARENT_DIR = os.path.dirname(SCRIPT_DIR)
+    
+    model_path = os.path.join(PARENT_DIR, "model")
+    csv_path = os.path.join(PARENT_DIR, "db", "tr_v8.csv")
+    inputs_file = os.path.join(PARENT_DIR, "inputs.txt")
+    outputs_file = os.path.join(PARENT_DIR, "outputs.txt")
     
     transliterator = UrduTransliterator(model_path, csv_path)
     
-    input_texts = read_inputs(r"C:\Users\zeffn\OneDrive\Desktop\transliterationPipeline\inputs.txt")
+    input_texts = read_inputs(inputs_file)
     
     if not input_texts:
         print("No inputs found in inputs.txt")
@@ -400,7 +406,7 @@ def main():
             print(f"    '{seq}' -> '{translit}' ({source}) [indices: {indices}]")
         print("-" * 80)
     
-    write_outputs(r"C:\Users\zeffn\OneDrive\Desktop\transliterationPipeline\outputs.txt", roman_transliterations)
+    write_outputs(outputs_file, roman_transliterations)
     
     avg_time = total_time / len(input_texts)
     
