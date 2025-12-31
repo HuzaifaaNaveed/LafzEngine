@@ -1,6 +1,14 @@
 import json
 import os
 from datetime import datetime
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PARENT_DIR = os.path.dirname(SCRIPT_DIR)
+
+INPUTS_FILE = os.path.join(PARENT_DIR, "inputs.txt")
+OUTPUTS_FILE = os.path.join(PARENT_DIR, "outputs.txt")
+LOGS_FILE = os.path.join(PARENT_DIR, "logs.json")
+
 URDUTOROMAN = {
     "ا": ["a", "aa", "", "i", "e", "u", "o",""],
     "آ": ["aa", "a", "ah"],
@@ -82,26 +90,26 @@ def checkTransliteration(urduText, romanOutput):
     return True, "Valid"
 
 def read_files():
-    with open(r"C:\Users\zeffn\OneDrive\Desktop\transliterationPipeline\inputs.txt", 'r', encoding='utf-8') as f:
+    with open(INPUTS_FILE, 'r', encoding='utf-8') as f:
         inputs = [line.strip() for line in f if line.strip()]
     
-    with open(r"C:\Users\zeffn\OneDrive\Desktop\transliterationPipeline\outputs.txt", 'r', encoding='utf-8') as f:
+    with open(OUTPUTS_FILE, 'r', encoding='utf-8') as f:
         outputs = [line.strip() for line in f if line.strip()]
     
     return inputs, outputs
 
 def clear_files():
-    open(r"C:\Users\zeffn\OneDrive\Desktop\transliterationPipeline\inputs.txt", 'w', encoding='utf-8').close()
-    open(r"C:\Users\zeffn\OneDrive\Desktop\transliterationPipeline\outputs.txt", 'w', encoding='utf-8').close()
+    open(INPUTS_FILE, 'w', encoding='utf-8').close()
+    open(OUTPUTS_FILE, 'w', encoding='utf-8').close()
 
 def load_existing_logs():
-    if os.path.exists(r"C:\Users\zeffn\OneDrive\Desktop\transliterationPipeline\logs.json"):
-        with open(r"C:\Users\zeffn\OneDrive\Desktop\transliterationPipeline\logs.json", 'r', encoding='utf-8') as f:
+    if os.path.exists(LOGS_FILE):
+        with open(LOGS_FILE, 'r', encoding='utf-8') as f:
             return json.load(f)
     return []
 
 def save_logs(logs):
-    with open(r"C:\Users\zeffn\OneDrive\Desktop\transliterationPipeline\logs.json", 'w', encoding='utf-8') as f:
+    with open(LOGS_FILE, 'w', encoding='utf-8') as f:
         json.dump(logs, f, ensure_ascii=False, indent=2)
 
 def main():
